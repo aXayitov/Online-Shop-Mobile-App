@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activity.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,7 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
 
             <!-- Top banner with user and search -->
             <LinearLayout
@@ -109,10 +110,10 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:scaleType="fitXY"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/top_banner" />
 
                 <TextView
@@ -122,9 +123,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
                     android:text="Discount 20% For\nHeadphones!"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -148,8 +149,8 @@
                 android:layout_marginStart="24dp"
                 android:text="Categories"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="19sp" />
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -249,8 +250,8 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <ImageView
@@ -263,10 +264,10 @@
                         android:id="@+id/textViewCat5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="View All"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="8dp" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -284,9 +285,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Popular Product"
+                    android:textColor="@color/black"
                     android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView8"
@@ -302,9 +303,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
                 android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:nestedScrollingEnabled="false" />
+                android:paddingEnd="12dp" />
         </LinearLayout>
     </ScrollView>
 
