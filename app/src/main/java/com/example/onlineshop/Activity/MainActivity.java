@@ -1,6 +1,8 @@
 package com.example.onlineshop.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 
 import androidx.activity.EdgeToEdge;
@@ -29,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
         statusBarColor();
         initRecyclerView();
+        bottomNavigation();
+    }
+
+    private void bottomNavigation() {
+        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CardActivity.class)));
     }
 
     private void statusBarColor() {
