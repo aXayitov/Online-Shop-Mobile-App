@@ -30,16 +30,18 @@ public class ManagmentCart {
         }
         if(existAlready){
             listpop.get(n).setNumberInCart(item.getNumberInCart());
-        }else{
+        } else {
             listpop.add(item);
         }
-        tinyDB.putListObject("CardList", listpop);
+        tinyDB.putListObject("CartList", listpop);
         Toast.makeText(context, "Added to your Cart", Toast.LENGTH_SHORT).show();
     }
+
 
     public ArrayList<PopularDomain> getListCart() {
         return tinyDB.getListObject("CartList");
     }
+
 
     public Double getTotalFee(){
         ArrayList<PopularDomain> listItem=getListCart();
