@@ -46,6 +46,9 @@
         <activity android:name=".Activity.DetailActivity"
             android:exported="true" />
 
+        <activity android:name=".Activity.ProfileActivity"
+            android:exported="true"/>
+
 
         <!-- Example of a Service -->
         <!--
