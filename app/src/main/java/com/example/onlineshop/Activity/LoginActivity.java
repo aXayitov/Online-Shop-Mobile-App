@@ -1,6 +1,7 @@
 package com.example.onlineshop.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etEmail, etPassword;
     Button btnLogin;
     TextView tvRegister;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.toRegister);
+
+        // SharedPreferences ni ishga tushirish
+        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
 
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
@@ -49,11 +54,13 @@ public class LoginActivity extends AppCompatActivity {
                     if(response.isSuccessful() && response.body() != null) {
                         AuthResponse auth = response.body();
 
-                        // Tokenni SharedPreferences ga saqlash
-                        getSharedPreferences("APP_PREFS", MODE_PRIVATE)
-                                .edit()
-                                .putString("ACCESS_TOKEN", auth.getToken())
-                                .apply();
+                        // Tokenni va user ma'lumotlarini saqlash
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("token", auth.getToken());
+                        editor.putString("email", auth.getEmail());
+                        editor.putString("fullName", auth.getFullName());
+                        editor.putInt("userId", auth.getUserId());
+                        editor.apply();
 
                         Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 

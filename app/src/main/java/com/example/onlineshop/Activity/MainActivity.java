@@ -1,9 +1,11 @@
 package com.example.onlineshop.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +32,33 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+
         statusBarColor();
         initRecyclerView();
         bottomNavigation();
+        loadUserName();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // ProfileActivity dan qaytganda yangi nomni yuklash
+        loadUserName();
+    }
+
+    private void loadUserName() {
+        String userName = sharedPreferences.getString("fullName", "Isroilov Temur");
+        binding.textView2.setText(userName);
     }
 
     private void bottomNavigation() {
         binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CardActivity.class)));
+
+        LinearLayout profileBtn = findViewById(R.id.profileBtn);
+        profileBtn.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+        });
     }
 
     private void statusBarColor() {
