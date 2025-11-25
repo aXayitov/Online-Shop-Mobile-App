@@ -13,45 +13,48 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.example.onlineshop.Activity.DetailActivity;
 import com.example.onlineshop.Domain.PopularDomain;
+import com.example.onlineshop.Helper.ImageHelper;
 import com.example.onlineshop.databinding.ViewholderPupListBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewholder> {
     ArrayList<PopularDomain> items;
     Context context;
-    ViewholderPupListBinding binding;
 
-    public PopularAdapter(ArrayList<PopularDomain> items){
+    public PopularAdapter(ArrayList<PopularDomain> items) {
         this.items = items;
+    }
+
+    // Yangi constructor - List qabul qiladi
+    public PopularAdapter(List<PopularDomain> items) {
+        this.items = new ArrayList<>(items);
     }
 
     @NonNull
     @Override
     public PopularAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ViewholderPupListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ViewholderPupListBinding binding = ViewholderPupListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         context = parent.getContext();
         return new Viewholder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PopularAdapter.Viewholder holder, int position) {
-        binding.titleTxt.setText(items.get(position).getTitle());
-        binding.feeTxt.setText("$"+items.get(position).getPrice());
-        binding.scoreTxt.setText(""+items.get(position).getScore());
-        binding.reviewTxt.setText(""+items.get(position).getReview());
+        PopularDomain item = items.get(position);
 
-        int drawableResourced = holder.itemView.getResources().getIdentifier(items.get(position).getPicUrl(),
-                "drawable", holder.itemView.getContext().getPackageName());
+        holder.binding.titleTxt.setText(item.getTitle());
+        holder.binding.feeTxt.setText("$" + item.getPrice());
+        holder.binding.scoreTxt.setText(String.valueOf(item.getScore()));
+        holder.binding.reviewTxt.setText(String.valueOf(item.getReview()));
 
-        Glide.with(context)
-                .load(drawableResourced)
-                .transform(new GranularRoundedCorners(30, 30, 0, 0))
-                .into(binding.pic);
+        // Yangi usul - ImageHelper orqali rasm yuklash
+        ImageHelper.loadImageFromDrawable(context, item.getPicUrl(), holder.binding.pic);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra("object", items.get(position));
+            intent.putExtra("object", item);
             context.startActivity(intent);
         });
     }
@@ -61,9 +64,18 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewhold
         return items.size();
     }
 
+    public void updateData(List<PopularDomain> newItems) {
+        items.clear();
+        items.addAll(newItems);
+        notifyDataSetChanged();
+    }
+
     public class Viewholder extends RecyclerView.ViewHolder {
+        ViewholderPupListBinding binding;
+
         public Viewholder(ViewholderPupListBinding binding) {
             super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

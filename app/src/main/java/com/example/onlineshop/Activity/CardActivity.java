@@ -1,8 +1,11 @@
 package com.example.onlineshop.Activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,21 +36,48 @@ public class CardActivity extends AppCompatActivity {
         setVariable();
         initList();
         calculatorCart();
+        statusBarColor();
     }
+
+    private void statusBarColor() {
+        Window window = CardActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(CardActivity.this, R.color.purple_Dark));
+    }
+
     private void initList() {
         if(managmentCart.getListCart().isEmpty()){
-            binding.emptyTxt.setVisibility(View.VISIBLE);
-            binding.scroll.setVisibility(View.GONE);
+            showEmptyCartDialog();
         }else {
             binding.emptyTxt.setVisibility(View.GONE);
             binding.scroll.setVisibility(View.VISIBLE);
-        }
 
-        binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        binding.cartView.setAdapter(new CardAdapter(managmentCart.getListCart(), () -> calculatorCart()));
+            binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            binding.cartView.setAdapter(new CardAdapter(managmentCart.getListCart(), () -> calculatorCart()));
+        }
     }
-    private  void calculatorCart()
-    {
+
+    private void showEmptyCartDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.empty_cart_dialog);
+        dialog.setCancelable(false);
+
+        TextView title = dialog.findViewById(R.id.dialog_title);
+        Button okButton = dialog.findViewById(R.id.ok_button);
+
+        title.setText("Your Cart is Empty");
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void calculatorCart() {
         double percentTax = 0.02;
         double delivery = 10;
         tax = Math.round(managmentCart.getTotalFee() * percentTax * 100) / 100;
@@ -59,7 +89,6 @@ public class CardActivity extends AppCompatActivity {
         binding.taxTxt.setText("$"+tax);
         binding.deliveryTxt.setText("$"+delivery);
         binding.totalTxt.setText("$"+total);
-
     }
 
     private void setVariable() {
